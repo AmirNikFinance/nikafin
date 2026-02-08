@@ -3,222 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nik Finance - Command Center</title>
+    <title>Nik Finance - Business Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh; 
-            color: #333; 
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
-        .header { 
-            background: rgba(0,0,0,0.1); 
-            padding: 20px; 
-            text-align: center; 
-            color: white; 
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .header h1 { 
-            font-size: 2.5em; 
-            margin-bottom: 10px; 
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
-        .container { 
-            max-width: 1400px; 
-            margin: 0 auto; 
-            padding: 20px; 
-        }
-        .dashboard { 
-            display: grid; 
-            grid-template-columns: 2fr 1fr; 
-            gap: 20px; 
-            margin-bottom: 20px; 
-        }
-        .card { 
-            background: rgba(255,255,255,0.95); 
-            border-radius: 15px; 
-            padding: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            backdrop-filter: blur(10px); 
-        }
-        .achievement-card { 
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
-            color: white; 
-        }
-        .level-display { 
-            text-align: center; 
-            margin-bottom: 20px; 
-        }
-        .level-display h2 { 
-            font-size: 2em; 
-            margin-bottom: 10px; 
-        }
-        .xp-bar { 
-            background: rgba(255,255,255,0.3); 
-            height: 15px; 
-            border-radius: 10px; 
-            margin: 10px 0; 
-            overflow: hidden; 
-        }
-        .xp-fill { 
-            background: #4CAF50; 
-            height: 100%; 
-            width: 0%; 
-            transition: width 0.5s ease; 
-        }
-        .stats { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-            gap: 15px; 
-            margin-top: 20px; 
-        }
-        .stat { 
-            background: rgba(255,255,255,0.2); 
-            padding: 15px; 
-            border-radius: 10px; 
-            text-align: center; 
-        }
-        .tasks-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
-        .task-item { 
-            background: rgba(255,255,255,0.1); 
-            padding: 15px; 
-            border-radius: 10px; 
-            border-left: 4px solid #4CAF50; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 10px; 
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .task-item:hover {
-            transform: translateX(5px);
-            background: rgba(255,255,255,0.2);
-        }
-        .task-item.completed {
-            opacity: 0.6;
-            text-decoration: line-through;
-            border-left-color: #4CAF50;
-        }
-        .task-xp { 
-            background: #4CAF50; 
-            color: white; 
-            padding: 5px 10px; 
-            border-radius: 15px; 
-            font-weight: bold; 
-        }
-        .mission-card { 
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); 
-            color: #333; 
-        }
-        .urgent { 
-            border-left-color: #ff4757 !important; 
-            animation: pulse 2s infinite;
-        }
-        .urgent .task-xp { 
-            background: #ff4757; 
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
-        }
-        .update-btn {
-            background: #4CAF50;
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px 5px;
-            font-size: 14px;
+            padding: 2rem 0;
+            box-shadow: var(--shadow-lg);
         }
-        .update-btn:hover {
-            background: #45a049;
-        }
-        .progress-section {
-            margin: 20px 0;
-        }
-        .progress-bar {
-            background: #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 5px 0;
-        }
-        .progress-fill {
-            height: 20px;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
-            transition: width 0.3s ease;
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            justify-content: between;
         }
-        @media (max-width: 768px) { 
-            .dashboard { grid-template-columns: 1fr; } 
-            .header h1 { font-size: 2em; } 
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .level-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .level-display {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .level-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-name {
+            font-size: 1.125rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+        
+        .mission-card {
+            border-left: 4px solid var(--success);
+        }
+        
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+        
+        .progress-item {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-track {
+            background: #f1f5f9;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-track .progress-fill {
+            background: linear-gradient(90deg, var(--success), #06d6a0);
+            color: transparent;
+        }
+        
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .task-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .task-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .task-item.urgent {
+            border-left: 4px solid var(--danger);
+            background: linear-gradient(90deg, #fef2f2, transparent);
+        }
+        
+        .task-item.urgent::after {
+            content: 'URGENT';
+            position: absolute;
+            top: -8px;
+            right: 8px;
+            background: var(--danger);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 600;
+        }
+        
+        .task-item.completed {
+            background: #f0fdf4;
+            border-color: var(--success);
+            opacity: 0.8;
+        }
+        
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+        
+        .task-text {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .task-xp {
+            background: linear-gradient(135deg, var(--success), #06d6a0);
+            color: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .footer-stats {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .footer-stats h3 {
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+        }
+        
+        .time-badge {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.625rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🚀 Nik Finance Command Center</h1>
-        <p>Week of Feb 8-14, 2026 | Level Up Your Business</p>
-        <p id="lastUpdated">Last updated: Loading...</p>
+    <div class="overlay" id="overlay"></div>
+    <div class="celebration" id="celebration">
+        <h2>🎉 Congratulations!</h2>
+        <p id="celebrationText"></p>
+        <button class="btn" onclick="closeCelebration()">
+            <i class="fas fa-rocket"></i> Continue
+        </button>
     </div>
 
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1><i class="fas fa-chart-line"></i> Nik Finance Business Center</h1>
+                <p>Performance Dashboard • Week of February 8-14, 2026</p>
+                <div class="time-badge" id="lastUpdated">Last updated: Loading...</div>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
-        <div class="dashboard">
+        <div class="dashboard-grid">
             <div class="card mission-card">
-                <h2>🎯 This Week's Missions</h2>
+                <h2><i class="fas fa-target"></i> Weekly Business Objectives</h2>
+                
                 <div class="progress-section">
-                    <h3>Weekly Progress</h3>
-                    <div>Emails Sent: <span id="emailCount">0</span>/20</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="emailProgress" style="width: 0%">0%</div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span><i class="fas fa-envelope"></i> Practitioner Outreach</span>
+                            <strong><span id="emailCount">0</span>/20</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="emailProgress" style="width: 0%"></div>
+                        </div>
                     </div>
                     
-                    <div>Social Posts: <span id="postCount">0</span>/7</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="postProgress" style="width: 0%">0%</div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span><i class="fas fa-camera"></i> Social Media Posts</span>
+                            <strong><span id="postCount">0</span>/7</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="postProgress" style="width: 0%"></div>
+                        </div>
                     </div>
                     
-                    <div>Meetings Booked: <span id="meetingCount">0</span>/1</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="meetingProgress" style="width: 0%">0%</div>
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span><i class="fas fa-handshake"></i> Meetings Booked</span>
+                            <strong><span id="meetingCount">0</span>/1</strong>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="meetingProgress" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card achievement-card">
+            <div class="card level-card">
                 <div class="level-display">
-                    <h2 id="playerLevel">🎮 Level 1</h2>
-                    <h3 id="levelName">Rookie Broker</h3>
-                    <div class="xp-bar">
-                        <div class="xp-fill" id="xpBar"></div>
+                    <div class="level-number" id="levelNumber">1</div>
+                    <div class="level-name" id="levelName">Rookie Broker</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="xpBar"></div>
                     </div>
-                    <p><span id="currentXP">0</span> / <span id="maxXP">1000</span> XP</p>
+                    <div style="margin-top: 1rem;">
+                        <span id="currentXP">0</span> / <span id="maxXP">1000</span> XP
+                    </div>
                 </div>
-                <div class="stats">
-                    <div class="stat">
-                        <h4>Streak</h4>
-                        <p><span id="streak">0</span> days</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="streak">0</span>
+                        <div class="stat-label">Day Streak</div>
                     </div>
-                    <div class="stat">
-                        <h4>Achievements</h4>
-                        <p><span id="achievements">0</span> / 50</p>
+                    <div class="stat-item">
+                        <span class="stat-value" id="todayXP">0</span>
+                        <div class="stat-label">Today's XP</div>
                     </div>
-                    <div class="stat">
-                        <h4>Today's XP</h4>
-                        <p><span id="todayXP">0</span></p>
+                    <div class="stat-item">
+                        <span class="stat-value" id="achievements">0</span>
+                        <div class="stat-label">Achievements</div>
                     </div>
-                    <div class="stat">
-                        <h4>Total XP</h4>
-                        <p><span id="totalXP">0</span></p>
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalXP">0</span>
+                        <div class="stat-label">Total XP</div>
                     </div>
                 </div>
             </div>
@@ -226,73 +504,92 @@
 
         <div class="tasks-grid">
             <div class="card">
-                <h2>📝 Today's Quests (Sunday)</h2>
+                <h2><i class="fas fa-trophy"></i> Today's Priority Tasks</h2>
+                
                 <div class="task-item urgent" onclick="completeTask('reel', 50)">
-                    <span>Post "I'm back" Reel on @amir_financebroker</span>
-                    <span class="task-xp">50 XP</span>
-                </div>
-                <div class="task-item urgent" onclick="completeTask('emails', 75)">
-                    <span>Send first 3 practitioner emails</span>
-                    <span class="task-xp">75 XP</span>
-                </div>
-                <div class="task-item" onclick="completeTask('bio', 25)">
-                    <span>Set up @nik._.finance bio</span>
-                    <span class="task-xp">25 XP</span>
-                </div>
-                <p><strong>Today's Potential: <span id="todayPotential">150</span> XP</strong></p>
-                <button class="update-btn" onclick="resetProgress()">Reset Daily Progress</button>
-            </div>
-
-            <div class="card">
-                <h2>🤖 Nika's AI Tasks</h2>
-                <h3>🔄 In Progress</h3>
-                <div class="task-item">
-                    <span>Building web dashboard</span>
-                </div>
-                <div class="task-item">
-                    <span>Fix browser access for registry research</span>
+                    <span class="task-text">Post "I'm back" Reel on @amir_financebroker</span>
+                    <span class="task-xp"><i class="fas fa-star"></i> 50 XP</span>
                 </div>
                 
-                <h3>📋 Up Next</h3>
-                <div class="task-item">
-                    <span>Research TPB registry for new practitioners</span>
+                <div class="task-item urgent" onclick="completeTask('emails', 75)">
+                    <span class="task-text">Send first 3 practitioner outreach emails</span>
+                    <span class="task-xp"><i class="fas fa-star"></i> 75 XP</span>
                 </div>
-                <div class="task-item">
-                    <span>Create professional email templates</span>
+                
+                <div class="task-item" onclick="completeTask('bio', 25)">
+                    <span class="task-text">Set up @nik._.finance bio and branding</span>
+                    <span class="task-xp"><i class="fas fa-star"></i> 25 XP</span>
                 </div>
-                <div class="task-item">
-                    <span>Build social content calendar</span>
+                
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <strong>Today's Potential: <span id="todayPotential">150</span> XP</strong>
+                    <button class="btn btn-secondary" onclick="resetProgress()">
+                        <i class="fas fa-undo"></i> Reset Progress
+                    </button>
                 </div>
             </div>
 
             <div class="card">
-                <h2>🏆 Available Achievements</h2>
-                <div class="task-item">
-                    <span>🥶 Cold Start King: Send 10 emails</span>
-                    <span class="task-xp">+100</span>
+                <h2><i class="fas fa-robot"></i> AI Assistant Progress</h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="font-weight: 500; color: var(--success); margin-bottom: 0.5rem;">
+                        <i class="fas fa-check-circle"></i> Currently Active
+                    </div>
+                    <div class="task-item">
+                        <span class="task-text">Building practitioner contact database</span>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-text">Professional dashboard deployment</span>
+                    </div>
                 </div>
-                <div class="task-item">
-                    <span>🎥 Content Creator: 10 posts in a week</span>
-                    <span class="task-xp">+200</span>
+                
+                <div>
+                    <div style="font-weight: 500; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                        <i class="fas fa-clock"></i> Up Next
+                    </div>
+                    <div class="task-item">
+                        <span class="task-text">TPB registry data extraction</span>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-text">Social content calendar creation</span>
+                    </div>
                 </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-medal"></i> Available Achievements</h2>
+                
                 <div class="task-item">
-                    <span>🤝 The Networker: Book 5 meetings</span>
-                    <span class="task-xp">+300</span>
+                    <span class="task-text"><i class="fas fa-snowflake"></i> Cold Start King: Send 10 emails</span>
+                    <span class="achievement-badge">+100 XP</span>
                 </div>
+                
                 <div class="task-item">
-                    <span>🔥 Viral Hit: 1000+ views on one post</span>
-                    <span class="task-xp">+300</span>
+                    <span class="task-text"><i class="fas fa-video"></i> Content Creator: 10 posts in a week</span>
+                    <span class="achievement-badge">+200 XP</span>
+                </div>
+                
+                <div class="task-item">
+                    <span class="task-text"><i class="fas fa-users"></i> The Networker: Book 5 meetings</span>
+                    <span class="achievement-badge">+300 XP</span>
+                </div>
+                
+                <div class="task-item">
+                    <span class="task-text"><i class="fas fa-fire"></i> Viral Hit: 1000+ views on one post</span>
+                    <span class="achievement-badge">+300 XP</span>
                 </div>
             </div>
         </div>
 
-        <p style="text-align: center; color: white; margin-top: 30px; font-size: 1.2em;">
-            💪 Ready to level up? Let's crush these goals!
-        </p>
+        <div class="footer-stats">
+            <h3><i class="fas fa-rocket"></i> Ready to level up your business?</h3>
+            <p style="color: var(--text-secondary);">Click any task above to complete it and earn XP. Track your progress in real-time!</p>
+        </div>
     </div>
 
     <script>
-        // Game state
+        // Game state management
         let gameState = {
             xp: 0,
             level: 1,
@@ -307,7 +604,7 @@
             completedTasks: new Set()
         };
 
-        // Level thresholds
+        // Level system
         const levels = [
             {threshold: 0, name: 'Rookie Broker', level: 1, maxXP: 1000},
             {threshold: 1000, name: 'Associate Broker', level: 2, maxXP: 1500},
@@ -322,7 +619,7 @@
             document.getElementById('currentXP').textContent = gameState.xp;
             document.getElementById('totalXP').textContent = gameState.xp;
             document.getElementById('todayXP').textContent = gameState.todayXP;
-            document.getElementById('playerLevel').textContent = `🎮 Level ${gameState.level}`;
+            document.getElementById('levelNumber').textContent = gameState.level;
             document.getElementById('levelName').textContent = gameState.levelName;
             document.getElementById('maxXP').textContent = gameState.maxXP;
             document.getElementById('streak').textContent = gameState.streak;
@@ -331,32 +628,43 @@
             document.getElementById('postCount').textContent = gameState.postCount;
             document.getElementById('meetingCount').textContent = gameState.meetingCount;
             
-            // Update progress bars
+            // Update progress bars with smooth animations
             const xpPercent = (gameState.xp / gameState.maxXP) * 100;
             document.getElementById('xpBar').style.width = `${Math.min(xpPercent, 100)}%`;
             
             document.getElementById('emailProgress').style.width = `${(gameState.emailCount/20)*100}%`;
-            document.getElementById('emailProgress').textContent = `${Math.round((gameState.emailCount/20)*100)}%`;
-            
             document.getElementById('postProgress').style.width = `${(gameState.postCount/7)*100}%`;
-            document.getElementById('postProgress').textContent = `${Math.round((gameState.postCount/7)*100)}%`;
-            
             document.getElementById('meetingProgress').style.width = `${(gameState.meetingCount/1)*100}%`;
-            document.getElementById('meetingProgress').textContent = `${Math.round((gameState.meetingCount/1)*100)}%`;
             
             document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleString()}`;
             
             // Save to localStorage
-            localStorage.setItem('nikFinanceGameState', JSON.stringify(gameState));
+            localStorage.setItem('nikFinanceGameState', JSON.stringify({
+                ...gameState,
+                completedTasks: Array.from(gameState.completedTasks)
+            }));
+        }
+
+        function showCelebration(message) {
+            document.getElementById('celebrationText').textContent = message;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('celebration').style.display = 'block';
+        }
+
+        function closeCelebration() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('celebration').style.display = 'none';
         }
 
         function checkLevelUp(oldXP, newXP) {
-            const currentLevel = levels.find(l => newXP >= l.threshold && (levels[levels.indexOf(l)+1] ? newXP < levels[levels.indexOf(l)+1].threshold : true));
-            if (currentLevel && currentLevel.level > gameState.level) {
-                gameState.level = currentLevel.level;
-                gameState.levelName = currentLevel.name;
-                gameState.maxXP = currentLevel.maxXP;
-                alert(`🎉 LEVEL UP! You're now a ${currentLevel.name}!`);
+            const newLevel = levels.find(l => newXP >= l.threshold && 
+                (levels[levels.indexOf(l)+1] ? newXP < levels[levels.indexOf(l)+1].threshold : true));
+            
+            if (newLevel && newLevel.level > gameState.level) {
+                gameState.level = newLevel.level;
+                gameState.levelName = newLevel.name;
+                gameState.maxXP = newLevel.maxXP;
+                showCelebration(`🎉 LEVEL UP! You're now a ${newLevel.name}!`);
                 return true;
             }
             return false;
@@ -364,7 +672,7 @@
 
         function completeTask(taskType, xpReward) {
             if (gameState.completedTasks.has(taskType)) {
-                alert('Task already completed today!');
+                showCelebration('✅ Task already completed today!');
                 return;
             }
             
@@ -378,23 +686,25 @@
             if (taskType === 'reel' || taskType === 'bio') gameState.postCount += 1;
             
             // Check for level up
-            checkLevelUp(oldXP, gameState.xp);
+            if (!checkLevelUp(oldXP, gameState.xp)) {
+                showCelebration(`🎉 Task completed! +${xpReward} XP earned!`);
+            }
             
             // Mark task as completed in UI
             event.target.closest('.task-item').classList.add('completed');
             
             updateDisplay();
-            alert(`🎉 Task completed! +${xpReward} XP earned!`);
         }
 
         function resetProgress() {
-            if (confirm('Reset daily progress? This will clear completed tasks but keep your XP.')) {
+            if (confirm('Reset daily progress? This will clear completed tasks but keep your total XP.')) {
                 gameState.completedTasks.clear();
                 gameState.todayXP = 0;
                 document.querySelectorAll('.task-item.completed').forEach(item => {
                     item.classList.remove('completed');
                 });
                 updateDisplay();
+                showCelebration('🔄 Progress reset! Ready for a fresh start!');
             }
         }
 
@@ -402,8 +712,9 @@
         function loadGameState() {
             const saved = localStorage.getItem('nikFinanceGameState');
             if (saved) {
-                gameState = {...gameState, ...JSON.parse(saved)};
-                gameState.completedTasks = new Set(gameState.completedTasks || []);
+                const parsed = JSON.parse(saved);
+                gameState = {...gameState, ...parsed};
+                gameState.completedTasks = new Set(parsed.completedTasks || []);
             }
             updateDisplay();
         }
@@ -421,7 +732,17 @@
                     }
                 });
             });
+
+            // Add some loading animations
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    bar.style.opacity = '1';
+                });
+            }, 500);
         };
+
+        // Close celebration on overlay click
+        document.getElementById('overlay').onclick = closeCelebration;
     </script>
 </body>
 </html>
